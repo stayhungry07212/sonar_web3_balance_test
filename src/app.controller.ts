@@ -1,6 +1,7 @@
 import { Controller, Get, Param, HttpException } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { ApiService } from './api.service';
+import { BigNumber } from 'bignumber.js';
 
 @Controller()
 export class AppController {
@@ -25,9 +26,10 @@ export class AppController {
       const usdPrice = await this.api.getTokenPrice(contract_address);
 
       // futher enhancement to do: replace with library-specific response like express
+      const amountInUsd = new BigNumber(balance).times(usdPrice).toFixed(2);
       return {
-        holdings: +balance,
-        amountInUsd: usdPrice * +balance,
+        holdings: balance,
+        amountInUsd,
       };
     } catch (error) {
       return error;
