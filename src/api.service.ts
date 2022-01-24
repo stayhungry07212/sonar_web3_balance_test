@@ -4,18 +4,22 @@ import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import BigNumber from 'bignumber.js';
 
+interface Balance {
+  balance: string;
+  decimals: string;
+}
+
 @Injectable()
-export class AppService {
+export class ApiService {
   constructor(private readonly http: HttpService) {}
 
-  async getWalletHolding(
+  async getBalance(
     wallet_address: string,
     contract_address: string,
-  ): Promise<string> {
+  ): Promise<Balance> {
     const web3 = new Web3(
       new Web3.providers.HttpProvider(process.env.NODE_URL),
     );
-    console.log(process.env.NODE_URL);
     const minABI = [
       {
         constant: true,
@@ -70,16 +74,12 @@ export class AppService {
     try {
       // get decimals and balance
       const decimals = await contract.methods.decimals().call();
-      const wallet_balance = await contract.methods
-        .balanceOf(wallet_address)
-        .call();
+      const balance = await contract.methods.balanceOf(wallet_address).call();
 
-      // Big number calculations
-      const balanceBN = new BigNumber(wallet_balance);
-      const divisorBN = new BigNumber('10').pow(new BigNumber(decimals));
-      const adjustedBalance = balanceBN.div(divisorBN).toFixed(+decimals);
-
-      return adjustedBalance;
+      return {
+        balance,
+        decimals,
+      };
     } catch (error) {
       throw new HttpException(
         'Something went wrong with the contract method',

@@ -1,9 +1,13 @@
 import { Controller, Get, Param, HttpException } from '@nestjs/common';
-import { AppService } from './app.service';
+import { WalletService } from './wallet.service';
+import { ApiService } from './api.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly walletService: WalletService,
+    private readonly api: ApiService,
+  ) {}
 
   @Get('/:wallet_address/:contract_address')
   async getWalletHoldings(
@@ -14,11 +18,11 @@ export class AppController {
       throw new HttpException('Incomplete address information', 400);
     }
     try {
-      const balance = await this.appService.getWalletHolding(
+      const balance = await this.walletService.getContractHoldings(
         wallet_address,
         contract_address,
       );
-      const usdPrice = await this.appService.getTokenPrice(contract_address);
+      const usdPrice = await this.api.getTokenPrice(contract_address);
 
       // futher enhancement to do: replace with library-specific response like express
       return {
