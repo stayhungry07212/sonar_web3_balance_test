@@ -8,18 +8,14 @@ import BigNumber from 'bignumber.js';
 export class AppService {
   constructor(private readonly http: HttpService) {}
 
-  // futher enhance todo: move these to .env
-  private NODE_URL =
-    'https://speedy-nodes-nyc.moralis.io/ed77707a377c7d2dd6eb4fe7/bsc/mainnet';
-  private MORALIS_API_KEY =
-    'dk4BPOOspjInG8NUnWgffFwVsosx3kzJsBinhnnvLUeiKfkRvxKgm2sZYrVbgKd4';
-  private MORALIS_API_ENDPOINT = 'https://deep-index.moralis.io/api/v2/erc20/';
-
   async getWalletHolding(
     wallet_address: string,
     contract_address: string,
   ): Promise<string> {
-    const web3 = new Web3(new Web3.providers.HttpProvider(this.NODE_URL));
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(process.env.NODE_URL),
+    );
+    console.log(process.env.NODE_URL);
     const minABI = [
       {
         constant: true,
@@ -93,7 +89,7 @@ export class AppService {
   }
 
   async getTokenPrice(contract_address): Promise<number> {
-    const config = { 'x-api-key': this.MORALIS_API_KEY };
+    const config = { 'x-api-key': process.env.MORALIS_API_KEY };
 
     try {
       const {
@@ -101,7 +97,9 @@ export class AppService {
         data: { usdPrice },
       } = await this.http
         .get(
-          this.MORALIS_API_ENDPOINT + contract_address + '/price?chain=bsc',
+          process.env.MORALIS_API_ENDPOINT +
+            contract_address +
+            '/price?chain=bsc',
           {
             headers: config,
           },
