@@ -2,8 +2,6 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import BigNumber from 'bignumber.js';
-
 interface Balance {
   balance: string;
   decimals: string;

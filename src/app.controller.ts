@@ -1,7 +1,8 @@
 import { Controller, Get, Param, HttpException } from '@nestjs/common';
+import { BigNumber } from 'bignumber.js';
+
 import { WalletService } from './wallet.service';
 import { ApiService } from './api.service';
-import { BigNumber } from 'bignumber.js';
 
 @Controller()
 export class AppController {

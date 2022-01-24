@@ -1,7 +1,4 @@
-import { Injectable, HttpException } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
+import { Injectable } from '@nestjs/common';
 import BigNumber from 'bignumber.js';
 
 import { ApiService } from './api.service';

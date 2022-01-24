@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
+
 import { ApiService } from './api.service';
 import { WalletService } from './wallet.service';
 
