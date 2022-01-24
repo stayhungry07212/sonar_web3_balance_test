@@ -18,6 +18,8 @@ Web3 has no concept of token value, as the value is speculative and differs betw
 $ npm install
 ```
 
+Copy `.env.example` to `.env`
+
 ## Running the app
 
 ```bash
