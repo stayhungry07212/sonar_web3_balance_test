@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import BigNumber from 'bignumber.js';
 
 import { ApiService } from './api.service';
@@ -16,16 +16,20 @@ export class WalletService {
     wallet_address: string,
     contract_address: string,
   ): Promise<string> {
-    const { balance, decimals }: Balance = await this.apiService.getBalance(
-      wallet_address,
-      contract_address,
-    );
+    try {
+      const { balance, decimals }: Balance = await this.apiService.getBalance(
+        wallet_address,
+        contract_address,
+      );
 
-    // Big number calculations
-    const balanceBN = new BigNumber(balance);
-    const divisorBN = new BigNumber('10').pow(new BigNumber(decimals));
-    const adjustedBalance = balanceBN.div(divisorBN).toFixed(+decimals);
+      // Big number calculations
+      const balanceBN = new BigNumber(balance);
+      const divisorBN = new BigNumber('10').pow(new BigNumber(decimals));
+      const adjustedBalance = balanceBN.div(divisorBN).toFixed(+decimals);
 
-    return adjustedBalance;
+      return adjustedBalance;
+    } catch (error) {
+      throw new HttpException('Something went wrong with the api', 400);
+    }
   }
 }

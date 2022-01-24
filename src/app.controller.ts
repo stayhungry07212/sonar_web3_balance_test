@@ -33,7 +33,7 @@ export class AppController {
         amountInUsd,
       };
     } catch (error) {
-      return error;
+      throw new HttpException('Something went wrong with the api', 400);
     }
   }
 }
