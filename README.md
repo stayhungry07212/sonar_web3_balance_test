@@ -10,6 +10,7 @@ As for bscscan api, they need a paid tier for getting exact token prices.
 I checked poocoin and pancakeswap how they calculate the price. As I see they call continously the bsc-dataseed through web3.js, but I didn't find the solution yet.
 Bitquery provide delayed price.
 So I decided to use Moralis web3 api.
+Web3 has no concept of token value, as the value is speculative and differs between different markets.
 
 ## Installation
 
